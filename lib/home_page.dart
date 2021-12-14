@@ -56,47 +56,53 @@ class _HomePageState extends State<HomePage> {
               child: ListView.builder(
                 itemCount: postList.length,
                 itemBuilder: (context, index) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Image.network(
-                              postList[index].userImageUrl,
-                              height: 40,
-                              width: 40,
+                  return Center(
+                    child: Card(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Image.network(
+                                  postList[index].userImageUrl,
+                                  height: 40,
+                                  width: 40,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Flexible(child: Text(postList[index].postName)),
+                              ],
                             ),
-                            const SizedBox(
-                              width: 10,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Text(postList[index].postDate.toString()),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Image.network(
+                                  postList[index].postImageUrl,
+                                  fit: BoxFit.cover,
+                                  width: 100,
+                                ),
+                              ],
                             ),
-                            Flexible(child: Text(postList[index].postName)),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                        ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Text(postList[index].postDate.toString()),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Image.network(
-                              postList[index].postImageUrl,
-                              fit: BoxFit.cover,
-                              width: 100,
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                    ],
+                    ),
                   );
                 },
               ),
