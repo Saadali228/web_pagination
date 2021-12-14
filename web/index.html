@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -27,11 +28,27 @@
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="favicon.png" />
 
   <title>web_pagination</title>
   <link rel="manifest" href="manifest.json">
+  <script>
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAVYVppihRd9kX-ui9VaqnzPfATbou9KFs",
+      authDomain: "pagination-7615b.firebaseapp.com",
+      projectId: "pagination-7615b",
+      storageBucket: "pagination-7615b.appspot.com",
+      messagingSenderId: "1091010625339",
+      appId: "1:1091010625339:web:5c6d979000dc146675c11e"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
 </head>
+
 <body>
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
@@ -100,5 +117,7 @@
       loadMainDartJs();
     }
   </script>
+
 </body>
+
 </html>
