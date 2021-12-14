@@ -108,13 +108,14 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          Container(
-            height: isLoading ? 50.0 : 0,
-            color: Colors.transparent,
-            child: const Center(
-              child: CircularProgressIndicator(),
+          if (isLoading)
+            Container(
+              height: isLoading ? 50.0 : 0,
+              color: Colors.transparent,
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
             ),
-          ),
         ],
       ),
     );
