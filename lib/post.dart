@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class Post {
-  final int postId;
+  final String postId;
   final String postName;
   final DateTime postDate;
   final String userImageUrl;
@@ -16,23 +16,24 @@ class Post {
         userImageUrl = json['owner']['picture'],
         postImageUrl = json['image'];
 
-  static const String api = "https://dummyapi.io/data/v1/post?limit=10";
+  static Future<List<Post>> getPosts(int page) async {
+    // List<Post> posts = [];
+    // int page = 0;
+    var url = Uri.parse('https://dummyapi.io/data/v1/post?limit=5$page');
 
-  static Future<List<Post>> getPosts() async {
-    List<Post> posts = [];
-    int page = 0;
-    var url = Uri.parse('https://dummyapi.io/data/v1/post?limit=10$page');
-    page++;
     try {
       final response = await http.get(url, headers: {
         "app-id": "61b8b0f3309ad65ae828da3e",
       });
       final jsonResponse = jsonDecode(response.body);
-      final postList = Post.fromJson(jsonResponse['data']) as List;
-      for (var e in postList) {
-        posts.add(Post.fromJson(e));
-      }
-      return posts;
+      // final postList = Post.fromJson(jsonResponse['data']) as List;
+      final postList =
+          (jsonResponse["data"] as List).map((e) => Post.fromJson(e)).toList();
+      // print('object');
+      // for (var e in postList) {
+      //   posts.add(Post.fromJson(e));
+      // }
+      return postList;
     } catch (e) {
       rethrow;
     }

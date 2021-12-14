@@ -12,6 +12,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool isLoading = false;
   List<Post> postList = [];
+  int page = 0;
   @override
   void initState() {
     super.initState();
@@ -22,7 +23,8 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       isLoading = true;
     });
-    var newItems = await Post.getPosts();
+    var newItems = await Post.getPosts(page);
+    page++;
     if (postList.isEmpty) {
       postList = newItems;
     } else {
@@ -37,7 +39,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Web App'),
+        title: const Text('Pagination'),
       ),
       body: Column(
         children: <Widget>[
@@ -51,178 +53,50 @@ class _HomePageState extends State<HomePage> {
                 }
                 return true;
               },
-              child: GridView.builder(
+              child: ListView.builder(
                 itemCount: postList.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: 1.3 / 1.5,
-                  crossAxisCount: 4,
-                  crossAxisSpacing: 30,
-                  mainAxisSpacing: 20,
-                ),
                 itemBuilder: (context, index) {
-                  return Container(
-                    color: Colors.white,
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 10,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(40),
-                                    child: Image(
-                                      image: NetworkImage(
-                                          postList[index].userImageUrl),
-                                      width: 40,
-                                      height: 40,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(postList[index].postName),
-                                ],
-                              ),
-                              // IconButton(
-                              //   icon: Icon(SimpleLineIcons.options),
-                              //   onPressed: () {},
-                              // ),
-                            ],
-                          ),
-                        ),
-
-                        FadeInImage(
-                          image: NetworkImage(postList[index].postImageUrl),
-                          placeholder:
-                              const AssetImage("assets/placeholder.png"),
-                          width: MediaQuery.of(context).size.width,
-                        ),
-
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: <Widget>[
-                        //     Row(
-                        //       children: <Widget>[
-                        //         IconButton(
-                        //           onPressed: () {},
-                        //           icon: Icon(FontAwesome.heart_o),
-                        //         ),
-                        //         IconButton(
-                        //           onPressed: () {},
-                        //           icon: Icon(FontAwesome.comment_o),
-                        //         ),
-                        //         IconButton(
-                        //           onPressed: () {},
-                        //           icon: Icon(FontAwesome.send_o),
-                        //         ),
-                        //       ],
-                        //     ),
-                        //     IconButton(
-                        //       onPressed: () {},
-                        //       icon: Icon(FontAwesome.bookmark_o),
-                        //     ),
-                        //   ],
-                        // ),
-
-                        // Container(
-                        //   width: MediaQuery.of(context).size.width,
-                        //   margin: const EdgeInsets.symmetric(
-                        //     horizontal: 14,
-                        //   ),
-                        //   child: RichText(
-                        //     softWrap: true,
-                        //     overflow: TextOverflow.visible,
-                        //     text: const TextSpan(
-                        //       children: [
-                        //         TextSpan(
-                        //           text: "Liked By ",
-                        //           style: TextStyle(color: Colors.black),
-                        //         ),
-                        //         TextSpan(
-                        //           text: "Sigmund,",
-                        //           style: TextStyle(
-                        //               fontWeight: FontWeight.bold,
-                        //               color: Colors.black),
-                        //         ),
-                        //         TextSpan(
-                        //           text: " Yessenia,",
-                        //           style: TextStyle(
-                        //               fontWeight: FontWeight.bold,
-                        //               color: Colors.black),
-                        //         ),
-                        //         TextSpan(
-                        //           text: " Dayana",
-                        //           style: TextStyle(
-                        //               fontWeight: FontWeight.bold,
-                        //               color: Colors.black),
-                        //         ),
-                        //         TextSpan(
-                        //           text: " and",
-                        //           style: TextStyle(
-                        //             color: Colors.black,
-                        //           ),
-                        //         ),
-                        //         TextSpan(
-                        //           text: " 1263 others",
-                        //           style: TextStyle(
-                        //               fontWeight: FontWeight.bold,
-                        //               color: Colors.black),
-                        //         ),
-                        //       ],
-                        //     ),
-                        //   ),
-                        // ),
-
-                        // caption
-                        // Container(
-                        //   width: MediaQuery.of(context).size.width,
-                        //   margin: const EdgeInsets.symmetric(
-                        //     horizontal: 14,
-                        //     vertical: 5,
-                        //   ),
-                        //   child: RichText(
-                        //     softWrap: true,
-                        //     overflow: TextOverflow.visible,
-                        //     text: TextSpan(
-                        //       children: [
-                        //         TextSpan(
-                        //           text: posts[i].username,
-                        //           style: const TextStyle(
-                        //               fontWeight: FontWeight.bold,
-                        //               color: Colors.black),
-                        //         ),
-                        //         TextSpan(
-                        //           text: " ${posts[i].caption}",
-                        //           style: const TextStyle(color: Colors.black),
-                        //         ),
-                        //       ],
-                        //     ),
-                        //   ),
-                        // ),
-
-                        // post date
-                        Container(
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 14,
-                          ),
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            postList[index].postDate.toString(),
-                            textAlign: TextAlign.start,
-                            style: const TextStyle(
-                              color: Colors.grey,
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Image.network(
+                              postList[index].userImageUrl,
+                              height: 40,
+                              width: 40,
                             ),
-                          ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Flexible(child: Text(postList[index].postName)),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Text(postList[index].postDate.toString()),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Image.network(
+                              postList[index].postImageUrl,
+                              fit: BoxFit.cover,
+                              width: 100,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
                   );
                 },
               ),
